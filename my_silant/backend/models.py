@@ -60,21 +60,21 @@ class Client(Base_dictionary):
     
 
 class Car(models.Model):
-    serial_number = models.TextField(max_length=30, unique=True, db_index=True, verbose_name='Зав. № машины')
+    serial_number = models.TextField(max_length=55, unique=True, db_index=True, verbose_name='Зав. № машины')
     technique_model = models.ForeignKey(Technique_model, on_delete=models.CASCADE, db_index=True, verbose_name='Модель техники')
     engine_model = models.ForeignKey(Engine_model, on_delete=models.CASCADE, db_index=True, verbose_name='Модель двигателя')
-    engine_number = models.TextField(max_length=30, verbose_name='Зав. № двигателя')
+    engine_number = models.TextField(max_length=55, verbose_name='Зав. № двигателя')
     transmission_model = models.ForeignKey(Transmission_model, on_delete=models.CASCADE, db_index=True, verbose_name='Модель трансмиссии')
-    transmission_number = models.TextField(max_length=50, verbose_name='Зав. № трансмиссии')
+    transmission_number = models.TextField(max_length=55, verbose_name='Зав. № трансмиссии')
     drive_axle_model = models.ForeignKey(Drive_axle_model, on_delete=models.CASCADE, db_index=True, verbose_name='Модель ведущего моста')
-    drive_axle_number = models.TextField(max_length=50, verbose_name='Зав. № ведущего моста')
+    drive_axle_number = models.TextField(max_length=55, verbose_name='Зав. № ведущего моста')
     steerable_axle_model = models.ForeignKey(Steerable_axle_model, on_delete=models.CASCADE, db_index=True, verbose_name='Модель управляемого моста')
-    steerable_axle_number = models.TextField(max_length=50, verbose_name='Зав. № управляемого моста')
-    supply_contract = models.TextField(max_length=50, blank=True, verbose_name='Договор поставки №, дата.')
+    steerable_axle_number = models.TextField(max_length=55, verbose_name='Зав. № управляемого моста')
+    supply_contract = models.TextField(max_length=55, blank=True, verbose_name='Договор поставки №, дата.')
     shipping_date = models.DateField(db_index=True, verbose_name='Дата отгрузки с завода')
-    consignee = models.TextField(max_length=50, blank=True, verbose_name='Грузополучатель (конечный потребитель)')
-    delivery_address = models.TextField(max_length=150, blank=True, verbose_name='Адрес поставки (эксплуатации)')
-    equipment = models.TextField(max_length=150, blank=True, verbose_name='Комплектация (доп. опции)')
+    consignee = models.TextField(max_length=55, blank=True, verbose_name='Грузополучатель (конечный потребитель)')
+    delivery_address = models.TextField(max_length=255, blank=True, verbose_name='Адрес поставки (эксплуатации)')
+    equipment = models.TextField(max_length=255, blank=True, verbose_name='Комплектация (доп. опции)')
     client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Клиент')
     service_company = models.ForeignKey(Service_company, on_delete=models.CASCADE, blank=True, verbose_name='Сервисная организация')
 
@@ -101,14 +101,14 @@ class Type_maintenance(Base_dictionary):
 class Organization_maintenance(Base_dictionary):
     class Meta:
          verbose_name = 'Организация, проводившая ТО'
-         verbose_name_plural = 'Организации, проводившая ТО'
+         verbose_name_plural = 'Организации, проводившие ТО'
 
 
 class Maintenance(models.Model):
     type_maintenance = models.ForeignKey(Type_maintenance, on_delete=models.CASCADE, verbose_name='Вид ТО')
     maintenance_date = models.DateField(verbose_name='Дата проведения ТО')
     operating_time = models.IntegerField(verbose_name='Наработка м/час')
-    order = models.TextField(max_length=50, verbose_name='Номер заказа-наряда')
+    order = models.TextField(max_length=55, verbose_name='Номер заказа-наряда')
     order_date = models.DateField(verbose_name='Дата заказа-наряда')
     organization_maintenance = models.ForeignKey(Organization_maintenance, on_delete=models.CASCADE, verbose_name='Организация, проводившая ТО')
     car = models.ForeignKey(Car, on_delete=models.CASCADE, verbose_name='Машина')
