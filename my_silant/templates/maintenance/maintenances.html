@@ -1,0 +1,96 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+maintenances
+{% endblock title %}
+
+{% block content %}
+    <h2><b>Техническое обслуживание машины</b></h2>
+    {% if user.is_authenticated %}
+    <div class='container'>
+        <div class='row'>
+        <div class='col'>
+            <a class='btn btn-silant-blue' href='/cars/'>Общая информация</a>
+        </div>
+        <div class='col'>
+            <a class='btn btn-silant-red'>ТО</a>
+        </div>
+        <div class='col'>
+            <a class='btn btn-silant-blue' href='/cars/complaints/?car={{maintenance.car.id}}'>Рекламации</a>
+        </div>
+        </div>
+    </div>
+    {% endif %}
+    <form action='' method='get'>
+            {{ filterset.form.as_p }}
+            <input class='btn btn-silant-blue' type='submit' value='Найти' />
+        </form>
+    <hr>
+    {% if maintenances %}
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th scope='col'>Вид ТО</td>
+                    <th scope='col'>Дата проведения ТО</td>
+                    <th scope='col'>Наработка м/час</td>
+                    <th scope='col'>№ заказа-наряда</td>
+                    <th scope='col'>Дата заказа-наряда</td>
+                    <th scope='col'>Организация, проводившая ТО</td>
+                    <th scope='col'>Машина</td>
+                    <th scope='col'>Сервисная организация</td>
+                    {% if perms.silant.change_maintenance %}         
+                        <th scope='col'>Операции</td>
+                    {% endif %} 
+                </tr>
+            </thead>
+            {% for maintenance in maintenances %}
+                <tbody>
+                    <tr>
+                        <td><a href='dictionary/typeMaintenance/{{maintenance.type_maintenance.id}}/'>{{ maintenance.type_maintenance }}</a></td>
+                        <td>{{ maintenance.maintenance_date }}</a></td>
+                        <td>{{ maintenance.operating_time }}</a></td>
+                        <td>{{ maintenance.order }}</td>
+                        <td>{{ maintenance.order_date }}</a></td>
+                        <td><a href='dictionary/organizationMaintenance/{{maintenance.organization_maintenance.id}}/'>{{ maintenance.organization_maintenance }}</a></td>
+                        <td>{{ maintenance.car }}</a></td>
+                        <td><a href='dictionary/serviceCompany/{{maintenance.service_company.id}}/'>{{ maintenance.service_company }}</a></td>
+                        {% if perms.silant.change_maintenance %}
+                            <td>
+                                <a class='btn btn-silant-blue' href='/cars/maintenances/edit/{{maintenance.id}}'>Изменить</a>
+                            </td>
+                        {% endif %} 
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2>Данных пока нет!</h2>
+    {% endif %}
+
+    {% if page_obj.has_previous %}
+        <a href='?page=1'>1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href='?page={{ page_obj.previous_page_number }}'>{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+
+    {{ page_obj.number }}
+
+    {% if page_obj.has_next %}
+        <a href='?page={{ page_obj.next_page_number }}'>{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href='?page={{ page_obj.paginator.num_pages }}'>{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+    <div class='container'>
+        <div class='row'>
+            {% if perms.silant.add_maintenance %}
+                <div class='col'>
+                    <a class='btn btn-silant-blue' href='/cars/maintenances/create/'>Создать ТО</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

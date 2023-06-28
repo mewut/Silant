@@ -11,30 +11,24 @@ class CarFilter(FilterSet):
     steerable_axle_model = ModelChoiceFilter(queryset=Steerable_axle_model.objects.all(), field_name='steerable_axle_model', label='Модель управляемого моста', widget=forms.Select(attrs={"class":"form-control text-black text-center"}))     
     class Meta:
         model = Car
-        fields = {
-            '__all__'
-            }
+        fields = '__all__'
+
 
 class CarFilterNotAuth(FilterSet):
     serial_number = CharFilter(field_name='serial_number',label='Серийный номер', lookup_expr='icontains', widget=forms.TextInput(attrs={"class":"form-control text-black text-center"}))
     class Meta:
         model = Car
+        fields = '__all__'
 
-        fields = {
-            '__all__'
-            }
-       
 class MaintenanceFilter(FilterSet):
     type_maintenance = ModelChoiceFilter(queryset=Type_maintenance.objects.all(), field_name='type_maintenance', label='Вид ТО', widget=forms.Select(attrs={"class":"form-control text-black text-center"}))
     service_company = ModelChoiceFilter(queryset=Service_company.objects.all(), field_name='service_company', label='Сервисная организация', widget=forms.Select(attrs={"class":"form-control text-black text-center"}))
     car = ModelChoiceFilter(queryset=Car.objects.all(), field_name='car',label='Машина', widget=forms.Select(attrs={"class":"form-control text-black text-center"}))
     class Meta:
         model = Maintenance
+        fields = '__all__'
 
-        fields = {
-            '__all__'
-            }
-
+      
 class ComplaintsFilter(FilterSet):
     failure_node = ModelChoiceFilter(queryset=Failure_node.objects.all(), field_name='failure_node', label='Узел отказа', widget=forms.Select(attrs={"class":"form-control text-black text-center"}))
     recovery_method = ModelChoiceFilter(queryset=Recovery_method.objects.all(), field_name='recovery_method', label='Способ восстановления', widget=forms.Select(attrs={"class":"form-control text-black text-center"}))
@@ -43,8 +37,4 @@ class ComplaintsFilter(FilterSet):
 )
     class Meta:
         model = Complaints
-
-        fields = {
-            '__all__'
-            }
-        
+        fields = '__all__'

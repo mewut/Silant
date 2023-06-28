@@ -37,8 +37,8 @@ class MaintenanceForm(forms.ModelForm):
     class Meta:
         model = Maintenance
         widgets = {'maintenance_date': forms.SelectDateWidget(years=list(reversed(range(2000, now.year+1))), attrs={"rows": 1,"class":"form-control text-black text-center"}),
-                   'work_order': forms.Textarea(attrs={"rows": 1,"class":"form-control text-black text-center"}),
-                   'date_work_order': forms.SelectDateWidget(years=list(reversed(range(2000, now.year+1))), attrs={"rows": 1,"class":"form-control text-black text-center"}),
+                   'order': forms.Textarea(attrs={"rows": 1,"class":"form-control text-black text-center"}),
+                   'order_date': forms.SelectDateWidget(years=list(reversed(range(2000, now.year+1))), attrs={"rows": 1,"class":"form-control text-black text-center"}),
                 }
         fields = '__all__'
 

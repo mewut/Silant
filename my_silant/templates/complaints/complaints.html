@@ -1,0 +1,101 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+complaint
+{% endblock title %}
+
+{% block content %}
+    <h2><b>Рекламации машины</b></h2>
+    {% if user.is_authenticated %}
+    <div class="container">
+        <div class="row">
+        <div class="col">
+            <a class="btn btn-silant-blue" href="/cars/">Общая информация</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-silant-blue" href="/cars/maintenances/">ТО </a>
+        </div>
+        <div class="col">
+            <a class="btn btn-silant-red">Рекламации</a>
+        </div>
+        </div>
+    </div>
+    {% endif %}
+   <form action="" method="get">
+        {{ filterset.form.as_p }}
+        <input class="btn btn-silant-blue" type="submit" value="Найти" />
+    </form>
+    <hr>
+    {% if complaints %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Дата отказа</th>
+                    <th scope="col">Наработка м/час</th>
+                    <th scope="col">Узел отказа</th>
+                    <th scope="col">Характер отказа</th>
+                    <th scope="col">Способ восстановления</th>
+                    <th scope="col">Используемые запасные части</th>
+                    <th scope="col">Дата восстановления</th>
+                    <th scope="col">Время простоя техники</th>
+                    <th scope="col">Машина<br></th>
+                    <th scope="col">Сервисная организация</th>
+                    {% if perms.silant.change_complaints %}
+                        <th scope="col">Операции</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            {% for complaint in complaints %}
+                <tbody>
+                    <tr>
+                        <td>{{ complaint.date_of_refusal }}</td>
+                        <td>{{ complaint.operating_time }}</td>
+                        <td><a href="dictionary/failureNode/{{complaint.failure_node.id}}/">{{ complaint.failure_node }}</a></td>
+                        <td>{{ complaint.description_failure }}</td>
+                        <td><a href="dictionary/recoveryMethod/{{complaint.recovery_method.id}}/">{{ complaint.recovery_method }}</a></td>
+                        <td>{{ complaint.parts_used }}</td>
+                        <td>{{ complaint.date_of_restoration }}</td>
+                        <td>{{ complaint.equipment_downtime }}</td>
+                        <td>{{ complaint.car }}</td>
+                        <td><a href="dictionary/serviceCompany/{{complaint.service_company.id}}/">{{ complaint.service_company }}</a></td>
+                        {% if perms.silant.change_complaints %}                        
+                            <td>
+                                <a class="btn btn-silant-blue" href="/cars/complaints/edit/{{complaint.id}}">Изменить</a>
+                            </td>
+                        {% endif %} 
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2>Данных пока нет</h2>
+    {% endif %}
+
+    {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {{ page_obj.number }}
+
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+    <div class="container">
+        <div class="row">
+            {% if perms.silant.add_complaints %}
+                <div class="col">
+                    <a class="btn btn-silant-blue" href="/complaints/create/">Создать Рекламацию</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock content %}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load static %}
+{% load static %} 
 <html lang="ru">
     <head>
         <meta charset="utf-8" />
@@ -7,7 +7,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <link rel="shortcut icon" href=/static/media/LogotypeBlue.jpg>
-        <title>{% block head_title %}{% endblock head_title %}</title>
+        <title>Приложение СИЛАНТ </title>
 
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
         <link href="{% static 'css/custom.css' %}" rel="stylesheet" />
@@ -27,6 +27,25 @@
                             <li><a href="tel:88352201209" class="nav-link px-2 text-header">+7 (835) 220-12-09</a></li>
                             <li><a href="https://t.me/chzsa21" class="nav-link px-2 text-header">telegram</a></li>
                         </ul>
+
+                        <div class="text-end">
+                            {% if user.is_authenticated %}
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a class="btn btn-outline-dark me-2 text-header" href="/accounts/logout/">Выйти</a>
+                                    </li>
+                                </ul>
+                            Вошли как {{request.user.username}}
+                            {% else %}
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a class="btn btn-outline-dark me-2" href="/accounts/login/">Войти</a>
+                                    </li>
+                                </ul>
+                            {% endif %}
+
+                        </div>
+
                     </div>
                     <div class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                         <h1><b>Электронная сервисная книжка "Мой Силант"</b></h1>
@@ -35,27 +54,23 @@
             </header>
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 text-center">    
-                            {% block body %}
-                            {% block content %}
-                            {% endblock content %}
-                            {% endblock body %}
-                            {% block extra_body %}
-                            {% endblock extra_body %}
-                        </div>
+                    <div class="col-lg-12 text-center">
+                        {% block content %}
+                        {{ flatpage.content }}
+                        {% endblock content %}
                     </div>
                 </div>
-            <div class="container">
-            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-                <p class="col-md-4 mb-0 text-muted">© 2022 МОЙ СИЛАНТ</p>
-            
-                <ul class="nav col-md-4 justify-content-end">
+             </div>
+             <div class="container">
+                <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                  <p class="col-md-4 mb-0 text-muted">© 2022 МОЙ СИЛАНТ</p>
+              
+                  <ul class="nav col-md-4 justify-content-end">
                     <li class="nav-item"><a href="tel:88352201209" class="nav-link px-2 text-muted">+7 (835) 220-12-09</a></li>
                     <li class="nav-item"><a href="https://t.me/chzsa21" class="nav-link px-2 text-muted">telegram</a></li>
-                </ul>
+                  </ul>
                 </footer>
-            </div>
+              </div>
         </div>
-  
     </body>
 </html>

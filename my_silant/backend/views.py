@@ -55,9 +55,9 @@ def car_directory(request, id, type):
     elif type == 'ServiceCompany':
         namegroup = 'Сервисная организация'
         item = get_object_or_404(Service_company, id=id)
-    return render(request, 'Dict.html', {'item': item, 'namegroup' : namegroup, 'type' : type})
+    return render(request, 'dict.html', {'item': item, 'namegroup' : namegroup, 'type' : type})
 
-def maintenanced_irectory (request, id, type):
+def maintenance_directory (request, id, type):
     if type == 'typeMaintenance':
         namegroup = 'Вид ТО'    
         item = get_object_or_404(Type_maintenance, id=id)
@@ -67,7 +67,7 @@ def maintenanced_irectory (request, id, type):
     elif type == 'organizationMaintenance':
         namegroup = 'Организация, проводившая ТО'
         item = get_object_or_404(Organization_maintenance, id=id) 
-    return render(request, 'Dict.html', {'item': item, 'namegroup' : namegroup, 'type' : type})
+    return render(request, 'dict.html', {'item': item, 'namegroup' : namegroup, 'type' : type})
 
 def complaint_directory (request, id, type):
     if type == 'failureNode':
@@ -79,7 +79,7 @@ def complaint_directory (request, id, type):
     elif type == 'serviceCompany':
         namegroup = 'Сервисная организация'
         item = get_object_or_404(Service_company, id=id)
-    return render(request, 'Dict.html', {'item': item, 'namegroup' : namegroup, 'type' : type})
+    return render(request, 'dict.html', {'item': item, 'namegroup' : namegroup, 'type' : type})
                 
 # Клиент имеет доступ к данным определённых машин. У каждой машины есть только один клиент.
 # Сервисная организация имеет доступ к данным определённых машин. У каждой машины только одна сервисная организация.
@@ -87,7 +87,7 @@ def complaint_directory (request, id, type):
 
 class CarListView(LoginRequiredMixin, ListView):
     model = Car
-    template_name = 'car_list.html'
+    template_name = 'cars.html'
     ordering = 'shipping_date'         
     context_object_name = 'cars'
     paginate_by = 5
@@ -102,7 +102,7 @@ class CarDetailView(DetailView):
 
 class MaintenanceListView(PermissionRequiredMixin, ListView): 
     model = Maintenance
-    ordering = 'date_work_order'
+    ordering = 'order_date'
     template_name = 'maintenance/maintenances.html'                 
     permission_required = ('silant.view_maintenance',)
     context_object_name = 'maintenances'
@@ -224,7 +224,7 @@ class ComplaintsUpdateView(PermissionRequiredMixin, UpdateView):
         self.object.save()
         return redirect(self.get_success_url())
     
-    def save_dictionary(request): 
+    def save_dictionary(self, request): 
         if request.method == 'POST':          # эта проверка, чтобы не было случайного или 'случайного' изменения данных через GET-запросы))
             print(request.POST)
             id = request.POST['id']
