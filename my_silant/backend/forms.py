@@ -33,7 +33,7 @@ class MaintenanceForm(forms.ModelForm):
     organization_maintenance = forms.ModelChoiceField (queryset=Organization_maintenance.objects.all(), label='Организация, проводившая ТО', widget=forms.Select(attrs={"class":"form-control text-black text-center"}))
     car = forms.ModelChoiceField (queryset=Car.objects.all(), label='Машина', widget=forms.Select(attrs={"class":"form-control text-black text-center"}))
     service_company = forms.ModelChoiceField (queryset=Service_company.objects.all(), label='Сервисная организация', widget=forms.Select(attrs={"class":"form-control text-black text-center"}))
-    operating_time = forms.IntegerField (min_value='0', label='Наработка м/час', widget=forms.NumberInput (attrs={"class":"form-control text-black text-center"}))
+    operating_time = forms.IntegerField (min_value=0, label='Наработка м/час', widget=forms.NumberInput (attrs={"class":"form-control text-black text-center"}))
     class Meta:
         model = Maintenance
         widgets = {'maintenance_date': forms.SelectDateWidget(years=list(reversed(range(2000, now.year+1))), attrs={"rows": 1,"class":"form-control text-black text-center"}),
@@ -44,7 +44,7 @@ class MaintenanceForm(forms.ModelForm):
 
 
 class ComplaintsForm(forms.ModelForm):
-    operating_time = forms.IntegerField (min_value='0', label='Наработка м/час', widget=forms.NumberInput (attrs={"class":"form-control text-black text-center"}))
+    operating_time = forms.IntegerField (min_value=0, label='Наработка м/час', widget=forms.NumberInput (attrs={"class":"form-control text-black text-center"}))
     failure_node = forms.ModelChoiceField(queryset=Failure_node.objects.all(), label='Узел отказа', widget=forms.Select(attrs={"class":"form-control text-black text-center"}))
     recovery_method = forms.ModelChoiceField(queryset=Recovery_method.objects.all(), label='Способ восстановления', widget=forms.Select(attrs={"class":"form-control text-black text-center"}))
     car = forms.ModelChoiceField (queryset=Car.objects.all(), label='Машина', widget=forms.Select(attrs={"class":"form-control text-black text-center"}))

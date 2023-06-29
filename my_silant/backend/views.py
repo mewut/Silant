@@ -14,7 +14,7 @@ class CarCreateView(PermissionRequiredMixin, CreateView):
     form_class = CarForm
     template_name = 'car_create.html'                
     permission_required = ('silant.add_car',)
-    success_url = '/cars/'                         
+    success_url = 'cars/'                         
 
     def form_valid(self, form): 
         self.object = form.save(commit=False)
@@ -28,7 +28,7 @@ class CarUpdateView(PermissionRequiredMixin, UpdateView):
     model = Car
     template_name = 'car_create.html'                    
     permission_required = ('silant.change_car', )
-    success_url = '/cars/'                             
+    success_url = 'cars/'                             
 
     def form_valid(self, form): 
         self.object = form.save(commit=False)
@@ -284,17 +284,6 @@ class ComplaintsUpdateView(PermissionRequiredMixin, UpdateView):
 
             return redirect('/')
     
-
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')
-    else:
-        form = UserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
 
 def login(request):
     if request.method == 'POST':
