@@ -15,5 +15,3 @@ admin.site.register(Organization_maintenance)
 admin.site.register(Failure_node)
 admin.site.register(Recovery_method)
 admin.site.register(Client)
-
-# проверь, ничего ли не забыла
