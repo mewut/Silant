@@ -1,0 +1,229 @@
+@charset "UTF-8";
+:root {
+    --silant-blue: #163e6c; 
+    --silant-red: #d20a11;
+    --silant-sands: #ebe6d6;
+}
+
+@font-face {
+    font-family: 'PT-Astra-Sans_Regular';
+    src: local('PT-Astra-Sans_Regular'), url('/static/fonts/PT Astra Sans/PT-Astra-Sans_Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'PT-Astra-Sans_Bold';
+    src: local('PT-Astra-Sans_Bold'), url('/static/fonts/PT Astra Sans/PT-Astra-Sans_Bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'PT-Astra-Sans_Bold-italic';
+    src: local('PT-Astra-Sans_Bold-italic'), url('/static/fonts/PT Astra Sans/PT-Astra-Sans_Bold-italic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'PT-Astra-Sans_Italic';
+    src: local('PT-Astra-Sans_Italic'), url('/static/fonts/PT Astra Sans/PT-Astra-Sans_Italic.ttf') format('truetype');
+}
+
+body {
+    font-family: "PT-Astra-Sans_Regular";
+    background-color: var(--silant-sands);
+}
+
+.btn-silant-red {
+    color: var(--silant-sands);
+    background-color: var(--silant-red);
+    border-color: var(--silant-red);
+}
+
+.btn-silant-red:hover {
+    box-shadow: none; 
+}
+
+.btn-check:focus + .btn-silant-red, .btn-silant-red:focus,
+.btn-check:checked + .btn-silant-red, .btn-check:active + .btn-silant-red, .btn-silant-red:active, .btn-silant-red.active, .show > .btn-silant-red.dropdown-toggle {
+    color: var(--silant-sands);
+    background-color: var(--silant-red);
+    border-color: var(--silant-red);
+    box-shadow: 0 0 0 0.25rem rgba(130, 138, 145, 0.5);
+}
+
+.btn-silant-red:disabled, .btn-silant-red.disabled {
+    color: var(--silant-sands);
+    background-color: var(--silant-red);
+    border-color: var(--silant-red);
+}
+
+.btn-silant-blue {
+    color: var(--silant-sands);
+    background-color: var(--silant-blue);
+    border-color: var(--silant-blue);
+}
+
+.btn-check:focus + .btn-silant-blue, .btn-silant-blue:focus {
+    box-shadow: 0 0 0 0.25rem rgba(130, 138, 145, 0.5);
+}
+
+.btn-check:checked + .btn-silant-blue, .btn-check:active + .btn-silant-blue, .btn-silant-blue:active, .btn-silant-blue.active, .show > .btn-silant-blue.dropdown-toggle {
+    color: var(--silant-sands);
+}
+
+.btn-silant-blue:disabled, .btn-silant-blue.disabled {
+    color: var(--silant-sands);
+    background-color: var(--silant-blue);
+    border-color: var(--silant-blue);
+}
+
+.container {
+    overflow: auto;
+    background-color: var(--silant-sands);
+}
+
+.table {
+    background-color: white;
+    border-bottom: 1px solid var(--silant-blue);
+    border-top: 1px solid var(--silant-blue);
+    border-collapse: collapse;
+    text-align: left;
+    border-spacing: 0;
+    display: block;
+    overflow-x: auto;
+    max-width: fit-content;
+    margin: auto;
+}
+
+th {
+    border-bottom: 1px solid var(--silant-blue);
+    padding: 2px 2px;
+    white-space: nowrap;
+}
+
+table a {
+    text-decoration: none;
+    color: black;
+}
+table a:hover {
+    color: blue;
+}
+th,td {
+    padding: 2px 5px;
+    border-right: 1px solid var(--silant-blue);
+    border-left: 1px solid var(--silant-blue);
+}
+
+.td_slim {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+tr:nth-child(odd) {
+    background: white;
+}
+.table_tr:hover {
+    background: var(--silant-sands);
+}
+.small_font {
+    font-size: 0.8em;
+}
+.wrapper {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    margin: 0 auto;
+    border: 1px solid black;
+}
+
+header {
+    background-color: var(--silant-sands);
+}
+
+
+/* Стили для экрана 1920x1080 */
+@media (max-width: 1920px) {
+    html {
+        font-size: 19px;
+      }
+      .account_menu {
+          flex-direction: column;
+      }
+      .button.slim {
+          font-size: 15px;
+      }
+      .button_menu {
+          font-size: 23px;
+      }
+    } 
+
+/* Стили для экрана 1366x768 */
+@media (max-width: 1366px) {
+    html {
+        font-size: 18px;
+      }
+      .account_menu {
+          flex-direction: column;
+      }
+      .button.slim {
+          font-size: 14px;
+      }
+      .button_menu {
+          font-size: 22px;
+      }
+       
+    }
+
+/* Стили для экрана 1536x864 */    
+@media (max-width: 1536px) {
+    html {
+        font-size: 17px;
+      }
+      .account_menu {
+          flex-direction: column;
+      }
+      
+      .button.slim {
+          font-size: 13px;
+      }
+      .button_menu {
+          font-size: 21px;
+      }
+ 
+    }
+
+/* Стили для экрана 1440x900 */
+@media (max-width: 1440px) {
+        
+    html {
+        font-size: 16px;
+      }
+      .account_menu {
+          flex-direction: column;
+      }
+      
+      .button.slim {
+          font-size: 12px;
+      }
+      .button_menu {
+          font-size: 20px;
+      }
+    }
+    
+/* Стили для экрана 360x640 */ 
+@media (max-width: 360px) {
+    html {
+        font-size: 15px;
+      }
+      
+      .account_menu {
+          flex-direction: column;
+      }
+      .button.slim {
+          font-size: 11px;
+      }
+            
+      .button_menu {
+          font-size: 16px;
+      }
+
+}
+

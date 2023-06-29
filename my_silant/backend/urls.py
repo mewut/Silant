@@ -12,7 +12,7 @@ urlpatterns = [
 
     path('dictionary/<str:type>/<int:id>/', car_directory),
     path('maintenances/dictionary/<str:type>/<int:id>/', maintenance_directory),
-   # path('dictionary/save/', save_dictionary, name='save_dictionary'),
+    # path('dictionary/save/', save_dictionary, name='save_dictionary'),
     path('complaints/update/<int:pk>/', ComplaintsUpdateView.as_view(), name='complaints_update'),
 
     path('maintenances/', MaintenanceListView.as_view()), 
@@ -28,6 +28,5 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('login/', login, name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('register/', register, name='register'),
 
 ]

@@ -22,9 +22,9 @@ cars
         </div>
     {% endif %}
     <form action="" method="get">
-            {{ filterset.form.as_p }}
-            <input class="btn btn-silant-blue" type="submit" value="Найти" />
-        </form>
+        {{ filterset.form.as_p }}
+        <input class="btn btn-silant-blue" type="submit" value="Найти" />
+    </form>
     <hr>
     
     {% if cars %}
@@ -53,43 +53,41 @@ cars
                     {% endif %}    
                 </tr>
             </thead>
-           {% for car in cars %}
-                <tbody>
-                    <tr>
-                        <td>{{ car.serial_number }}</td>
-                        <td><a href="dictionary/techniqueModel/{{car.technique_model.id}}/">{{ car.technique_model }}</a></td>
-                        <td><a href="dictionary/engineModel/{{car.engine_model.id}}/">{{ car.engine_model }}</a></td>
-                        <td>{{ car.engine_number }}</td>
-                        <td><a href="dictionary/transmissionModel/{{car.transmission_model.id}}/">{{ car.transmission_model }}</a></td>
-                        <td>{{ car.transmission_number }}</td>
-                        <td><a href="dictionary/driveAxleModel/{{car.drive_axle_model.id}}/">{{ car.drive_axle_model }}</a></td>
-                        <td>{{ car.drive_axle_number }}</td>
-                        <td><a href="dictionary/steerableAxleModel/{{car.steerable_axle_model.id}}/">{{ car.steerable_axle_model }}</a></td>
-                        <td>{{ car.steerable_axle_number }}</td>
-                        {% if user.is_authenticated %}
-                            <td>{{ car.supply_contract }}</td>
-                            <td>{{ car.shipping_date }}</td>
-                            <td>{{ car.consignee }}</td>
-                            <td>{{ car.delivery_address }}</td>
-                            <td>{{ car.equipment }}</td>
-                            <td>{{ car.client }}</td>
-                            <td><a href="dictionary/ServiceCompany/{{car.service_company.id}}/">{{ car.service_company }}</a></td>
-                            <td>
-                                <a class="btn btn-silant-blue" href="/cars/{{car.id}}">Подробнее</a>
-                                {% if perms.silant.change_car %} 
-                                    <a class="btn btn-silant-blue" href="/cars/edit/{{car.id}}">Изменить</a>
-                                {% endif %} 
-                            </td>
-                        {% endif %}                    
-                    </tr>
-                </tbody>
+            <tbody>
+            {% for car in cars %}
+                <tr>
+                    <td>{{ car.serial_number }}</td>
+                    <td><a href="dictionary/techniqueModel/{{car.technique_model.id}}/">{{ car.technique_model }}</a></td>
+                    <td><a href="dictionary/engineModel/{{car.engine_model.id}}/">{{ car.engine_model }}</a></td>
+                    <td>{{ car.engine_number }}</td>
+                    <td><a href="dictionary/transmissionModel/{{car.transmission_model.id}}/">{{ car.transmission_model }}</a></td>
+                    <td>{{ car.transmission_number }}</td>
+                    <td><a href="dictionary/driveAxleModel/{{car.drive_axle_model.id}}/">{{ car.drive_axle_model }}</a></td>
+                    <td>{{ car.drive_axle_number }}</td>
+                    <td><a href="dictionary/steerableAxleModel/{{car.steerable_axle_model.id}}/">{{ car.steerable_axle_model }}</a></td>
+                    <td>{{ car.steerable_axle_number }}</td>
+                    {% if user.is_authenticated %}
+                        <td>{{ car.supply_contract }}</td>
+                        <td>{{ car.shipping_date }}</td>
+                        <td>{{ car.consignee }}</td>
+                        <td>{{ car.delivery_address }}</td>
+                        <td style="white-space: pre-line;">{{ car.equipment }}</td>
+                        <td>{{ car.client }}</td>
+                        <td><a href="dictionary/ServiceCompany/{{car.service_company.id}}/">{{ car.service_company }}</a></td>
+                        <td>
+                            <a class="btn btn-silant-blue" href="/cars/{{car.id}}">Подробнее</a>
+                            {% if perms.silant.change_car %} 
+                                <a class="btn btn-silant-blue" href="/cars/edit/{{car.id}}">Изменить</a>
+                            {% endif %} 
+                        </td>
+                    {% endif %}                    
+                </tr>
             {% endfor %}
-
+            </tbody>
         </table>
     {% else %}
         <h2>Машин нет</h2>
     {% endif %}
-
 
     {% if page_obj.has_previous %}
         <a href="?page=1">1</a>
