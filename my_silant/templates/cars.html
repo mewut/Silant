@@ -1,0 +1,119 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+cars
+{% endblock title %}
+
+{% block content %}
+    <h2><b>Проверьте комплектацию и технические характеристики техники Силант</b></h2>
+    {% if user.is_authenticated %}
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-silant-red">Общая информация</a>
+                </div>
+                <div class="col">
+                    <a class="btn btn-silant-blue" href="/cars/maintenances/">ТО </a>
+                </div>
+                <div class="col">
+                    <a class="btn btn-silant-blue" href="/cars/complaints/">Рекламации</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <form action="" method="get">
+        {{ filterset.form.as_p }}
+        <input class="btn btn-silant-blue" type="submit" value="Найти" />
+    </form>
+    <hr>
+    
+    {% if cars %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Зав. № машины</th>
+                    <th scope="col">Модель техники</th>
+                    <th scope="col">Модель двигателя</th>
+                    <th scope="col">Зав. № двигателя</th>
+                    <th scope="col">Модель трансмиссии</th>
+                    <th scope="col">Зав. № трансмиссии</th>
+                    <th scope="col">Модель ведущего моста</th>
+                    <th scope="col">Зав. № ведущего моста</th>
+                    <th scope="col">Модель управляемого моста</th>
+                    <th scope="col">Зав. № управляемого моста</th>
+                    {% if user.is_authenticated %}
+                        <th scope="col">Договор поставки №, дата</th>
+                        <th scope="col">Дата отгрузки с завода</th>
+                        <th scope="col">Грузополучатель (конечный потребитель)</th>
+                        <th scope="col">Адрес поставки (эксплуатации)</th>
+                        <th scope="col">Комплектация (доп. опции)</th>
+                        <th scope="col">Клиент</th>
+                        <th scope="col">Сервисная организация</th>
+                        <th scope="col">Операции</th>
+                    {% endif %}    
+                </tr>
+            </thead>
+            <tbody>
+            {% for car in cars %}
+                <tr>
+                    <td>{{ car.serial_number }}</td>
+                    <td><a href="dictionary/techniqueModel/{{car.technique_model.id}}/">{{ car.technique_model }}</a></td>
+                    <td><a href="dictionary/engineModel/{{car.engine_model.id}}/">{{ car.engine_model }}</a></td>
+                    <td>{{ car.engine_number }}</td>
+                    <td><a href="dictionary/transmissionModel/{{car.transmission_model.id}}/">{{ car.transmission_model }}</a></td>
+                    <td>{{ car.transmission_number }}</td>
+                    <td><a href="dictionary/driveAxleModel/{{car.drive_axle_model.id}}/">{{ car.drive_axle_model }}</a></td>
+                    <td>{{ car.drive_axle_number }}</td>
+                    <td><a href="dictionary/steerableAxleModel/{{car.steerable_axle_model.id}}/">{{ car.steerable_axle_model }}</a></td>
+                    <td>{{ car.steerable_axle_number }}</td>
+                    {% if user.is_authenticated %}
+                        <td>{{ car.supply_contract }}</td>
+                        <td>{{ car.shipping_date }}</td>
+                        <td>{{ car.consignee }}</td>
+                        <td>{{ car.delivery_address }}</td>
+                        <td style="white-space: pre-line;">{{ car.equipment }}</td>
+                        <td>{{ car.client }}</td>
+                        <td><a href="dictionary/ServiceCompany/{{car.service_company.id}}/">{{ car.service_company }}</a></td>
+                        <td>
+                            <a class="btn btn-silant-blue" href="/cars/{{car.id}}">Подробнее</a>
+                            {% if perms.silant.change_car %} 
+                                <a class="btn btn-silant-blue" href="/cars/edit/{{car.id}}">Изменить</a>
+                            {% endif %} 
+                        </td>
+                    {% endif %}                    
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h2>Машин нет</h2>
+    {% endif %}
+
+    {% if page_obj.has_previous %}
+        <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+
+    {{ page_obj.number }}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+
+    <div class="container">
+        <div class="row">
+            {% if perms.silant.add_car %}
+                <div class="col">
+                    <a class="btn btn-silant-blue" href="create/">Добавить машину</a>
+                </div>
+            {% endif %}    
+        </div>
+    </div>
+{% endblock content %}
