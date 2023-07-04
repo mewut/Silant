@@ -21,9 +21,9 @@ urlpatterns = [
 
     path('complaints/', ComplaintsListView.as_view()), 
     path('complaints/create/', ComplaintsCreateView.as_view(), name='create_complaints'),
-    path('complaints/edit/<int:pk>/', ComplaintsUpdateView.as_view(), name='complaints_update'), 
+    path('complaints/edit/<int:pk>/', ComplaintsUpdateView.as_view(), name='edit_complaints'), 
 
-    path('complaints/dictionary/<str:type>/<int:id>/', complaint_directory, name='complaint_directory'),
+   # path('complaints/dictionary/<str:type>/<int:id>/', complaint_directory, name='complaint_directory'),
 
     path('accounts/', include('allauth.urls')),
     path('login/', auth_views.LoginView.as_view(), name='login'),

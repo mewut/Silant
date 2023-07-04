@@ -14,7 +14,7 @@ class CarCreateView(PermissionRequiredMixin, CreateView):
     form_class = CarForm
     template_name = 'car_create.html'                
     permission_required = ('silant.add_car',)
-    success_url = 'cars/'                         
+    success_url = '/cars/'                         
 
     def form_valid(self, form): 
         self.object = form.save(commit=False)
