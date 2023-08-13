@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'sign',
+    'index_view',
+    'corsheaders',
 
 ]
 
@@ -140,16 +143,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_URL = '/accounts/login/' 
-LOGIN_REDIRECT_URL = '/cars/' 
-ACCOUNT_LOGOUT_REDIRECT_URL ='/cars/'
-
-
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 
 ACCOUNT_ADAPTER = 'backend.users.adapter.CustomAccountAdapter'
@@ -162,3 +160,12 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
     
+LOGIN_URL = '/sign/login/'
+LOGIN_REDIRECT_URL = '/user/' 
+# ACCOUNT_LOGOUT_REDIRECT_URL ='/cars/'
+
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:8000',
+    'http://localhost:63342'
+
+]

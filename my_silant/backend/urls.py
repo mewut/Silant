@@ -1,32 +1,75 @@
-from django.urls import path, include
-from .views import CarCreateView, CarDetailView, CarUpdateView, CarListView, ComplaintsCreateView, ComplaintsUpdateView, ComplaintsListView, MaintenanceCreateView, MaintenanceUpdateView, MaintenanceListView, car_directory, maintenance_directory, complaint_directory, login
-from django.contrib.auth import views as auth_views
-
+from django.urls import path
+from .views import *
+from rest_framework.schemas import get_schema_view
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-
-    path('', CarListView.as_view()),
-    path('<int:pk>/', CarDetailView.as_view(), name='car_info'),
-    path('create/', CarCreateView.as_view(), name='car_create'),
-    path('edit/<int:pk>/', CarUpdateView.as_view(), name='edit_car'),
-
-    path('dictionary/<str:type>/<int:id>/', car_directory),
-    path('maintenances/dictionary/<str:type>/<int:id>/', maintenance_directory),
-    # path('dictionary/save/', save_dictionary, name='save_dictionary'),
-    # path('complaints/update/<int:pk>/', ComplaintsUpdateView.as_view(), name='complaints_update'),
-
-    path('maintenances/', MaintenanceListView.as_view()), 
-    path('maintenances/create/', MaintenanceCreateView.as_view(), name='create_maintenance'),
-    path('maintenances/edit/<int:pk>/', MaintenanceUpdateView.as_view(), name='edit_maintenance'),
-
-    path('complaints/', ComplaintsListView.as_view()), 
-    path('complaints/create/', ComplaintsCreateView.as_view(), name='create_complaints'),
-    path('complaints/edit/<int:pk>/', ComplaintsUpdateView.as_view(), name='edit_complaints'), 
-
-   # path('complaints/dictionary/<str:type>/<int:id>/', complaint_directory, name='complaint_directory'),
-
-    path('accounts/', include('allauth.urls')),
-    path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-
+    path('', CarSearch.as_view(), name='search'),
+    path('user/', by_user_car, name='user'),
+    path('maintenance/', MaintenanceListVew.as_view(), name='maintenance'),
+    # path('complaint/', by_user_complaint, name='complaint'),
+    path('addcar', CarCreateVew.as_view(), name='car_create'),
+    path('addmaintenance', MaintenanceCreateVew.as_view(), name='maintenance_create'),
+    path('addcomplaint', ComplaintsCreateVew.as_view(), name='complaint_create'),
+    path('<int:pk>/medit', CarUpdateView.as_view(), name='machine_update'),
+    path('<int:pk>/tedit', MaintenanceUpdateView.as_view(), name='maintenance_update'),
+    path('<int:pk>/cedit', ComplaintsUpdateView.as_view(), name='complaint_update'),
+    path('complaint/', ComplaintsListVew.as_view(), name='complaint'),
+    path('maintenance/<int:maintenance_id>/', maintenance_detail, name='maintenance_detail'),
+    path('complaint/<int:complaint_id>/', complaint_detail, name='complaint_detail'),
+    path('machine/<int:machine_id>/', car_detail, name='machine_detail'),
+    path('deletemachine/<int:pk>/', CarDeleteView.as_view(), name='machine_delete'),
+    path('deletemaintenance/<int:pk>/', MaintenanceDeleteView.as_view(), name='maintenance_delete'),
+    path('deleteсomplaint/<int:pk>/', ComplaintsDeleteView.as_view(), name='complaint_delete'),
+    path('complaintlist/<int:machine_id>/', complaint_list_car, name='complaint_list'),
+    path('maintenancelist/<int:machine_id>/', maintenance_list_car, name='maintenance_list'),
+    
+    path('servisecomp/', ServiceCompanyListView.as_view(), name='servisecomp'),
+    path('modeltech/', TechniqueModelListView.as_view(), name='modeltech'),
+    path('modeleng/', EngineModelListView.as_view(), name='modeleng'),
+    path('modeltrans/', TransmissionModelListView.as_view(), name='modeltrans'),
+    path('modelaxel/', DriveAxleModelListView.as_view(), name='modelaxel'),
+    path('modelsteer/', SteerableAxleModelListView.as_view(), name='modelsteer'),
+    path('servisetype/', TypeMaintenanceListView.as_view(), name='servisetype'),
+    path('fnode/', FailureNodeListView.as_view(), name='fnode'),
+    path('reco/', RecoveryMethodListView.as_view(), name='reco'),
+    # добавление списков
+    path('create_servisecomp/', ServiceCompanyCreateVew.as_view(), name='create_servisecomp'),
+    path('create_modeltech/', TechniqueModelCreateVew.as_view(), name='create_modeltech'),
+    path('create_modeleng/', EngineModelCreateVew.as_view(), name='create_modeleng'),
+    path('create_modeltrans/', TransmissionModelCreateVew.as_view(), name='create_modeltrans'),
+    path('create_modelaxel/', DriveAxleModelCreateVew.as_view(), name='create_modelaxel'),
+    path('create_modelsteer/', SteerableAxleModelCreateVew.as_view(), name='create_modelsteer'),
+    path('create_TypeMaintenance/', TypeMaintenanceCreateVew.as_view(), name='create_TypeMaintenance'),
+    path('create_fnode/', FailureNodeCreateVew.as_view(), name='create_fnode'),
+    path('create_reco/', RecoveryMethodCreateVew.as_view(), name='create_reco'),
+    # удаление списков
+    path('delete_servisecomp/<int:pk>/', ServiceCompanyDeleteView.as_view(), name='delete_servisecomp'),
+    path('delete_techniquemodel/<int:pk>/', TechniqueModelDeleteView.as_view(), name='delete_techniquemodel'),
+    path('delete_enginemodel/<int:pk>/', EngineModelDeleteView.as_view(), name='delete_enginemodel'),
+    path('delete_modeltrans/<int:pk>/', TransmissionModelDeleteView.as_view(), name='delete_modeltrans'),
+    path('delete_modelaxel/<int:pk>/', DriveAxleModelDeleteView.as_view(), name='delete_modelaxel'),
+    path('delete_modelsteer/<int:pk>/', SteerableAxleModelDeleteView.as_view(), name='delete_modelsteer'),
+    path('delete_TypeMaintenance/<int:pk>/', TypeMaintenanceDeleteView.as_view(), name='delete_TypeMaintenance'),
+    path('delete_fnode/<int:pk>/', FailureNodeDeleteView.as_view(), name='delete_fnode'),
+    path('delete_reco/<int:pk>/', RecoveryMethodDeleteView.as_view(), name='delete_reco'),
+    # редактирование списков
+    path('edit_servisecomp/<int:pk>/', ServiceCompanyUpdateView.as_view(), name='edit_servisecomp'),
+    path('edit_modeltech/<int:pk>/', TechniqueModelUpdateView.as_view(), name='edit_modeltech'),
+    path('edit_enginemodel/<int:pk>/', EngineModelUpdateView.as_view(), name='edit_enginemodel'),
+    path('edit_modeltrans/<int:pk>/', TransmissionModelUpdateView.as_view(), name='edit_modeltrans'),
+    path('edit_modelaxel/<int:pk>/', DriveAxleModelUpdateView.as_view(), name='edit_modelaxel'),
+    path('edit_modelsteer/<int:pk>/', SteerableAxleModelUpdateView.as_view(), name='edit_modelsteer'),
+    path('edit_TypeMaintenance/<int:pk>/', TypeMaintenanceUpdateView.as_view(), name='edit_TypeMaintenance'),
+    path('edit_fnode/<int:pk>/', FailureNodeUpdateView.as_view(), name='edit_fnode'),
+    path('edit_reco/<int:pk>/', RecoveryMethodUpdateView.as_view(), name='edit_reco'),
+    # API
+    path('api/machine/', CarAPIVew.as_view()),
+    path('api/maintenance/', MaintenanceAPIVew.as_view()),
+    path('api/complaint/', ComplaintAPIVew.as_view()),
+    path('openapi', get_schema_view(
+        title="My_Silant",
+        description="API for My_Silant",
+        version="v 1.0.0"
+    ), name='openapi-schema'),
 ]
